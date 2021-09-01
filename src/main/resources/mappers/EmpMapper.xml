@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mappers.EmpMapper">
+    <resultMap id="empResultMap" type="com.example.demo.domain.Emp">
+        <id column="empno" property="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="job" property="job"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate" jdbcType="DATE" javaType="java.time.LocalDate"/>
+        <result column="sal" property="sal"/>
+        <result column="comm" property="comm"/>
+        <association property="dept" column="deptno" javaType="com.example.mybatis.domain.Dept" jdbcType="INTEGER">
+        <id column="deptno" property="deptNo"/>
+        <result column="dname" property="dName"/>
+        <result column="loc" property="loc"/>
+        </association>
+    </resultMap>
+    <select id="findAll" resultMap="empResultMap">
+        select * from emp where deptno=#{deptno}
+    </select>
+    <update id="upDateSal" parameterType="com.example.demo.domain.Emp">
+         update EMP set sal=sal+#{sal} + #{sal} where EMPNO=#{ename};
+    </update>
+    <select id="findEmpAndMgr" resultType="com.example.demo.dto.EmpAndMgr">
+    select e1.ENAME empName, e2.ENAME mgrName from EMP e1 left outer join EMP e2 on e1.MGR = e2.EMPNO
+    </select>
+</mapper>
